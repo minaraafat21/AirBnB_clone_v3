@@ -49,7 +49,7 @@ def createamenity():
     elif "name" not in s.keys():
         abort(400, "Missing name")
     else:
-        new_s = amenities.Amenity(**s)
+        new_s = amenity.Amenity(**s)
         storage.new(new_s)
         storage.save()
         return jsonify(new_s.to_dict()), 201
