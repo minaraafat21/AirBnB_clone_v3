@@ -31,24 +31,24 @@ def getplaces(place_id=None):
 
 @app_views.route('/places/<place_id>', methods=['DELETE'],
                  strict_slashes=False)
-def deleteplaces(place_id=None):
+def deleteplace(place_id=None):
     """Deletes a place"""
     s = storage.get("Place", place_id)
     if s is None:
         abort(404)
     else:
-        storage.delete(obj)
+        storage.delete(s)
         storage.save()
         return jsonify({}), 200
 
 
 @app_views.route('/cities/<city_id>/places', methods=['POST'],
                  strict_slashes=False)
-def createplaces(city_id=None):
+def createplace(city_id=None):
     """Create a place"""
     checker = set()
     for i in storage.all("City").values():
-        finder.add(i.id)
+        checker.add(i.id)
     if city_id not in checker:
         abort(404)
 
@@ -69,7 +69,7 @@ def createplaces(city_id=None):
         abort(400, "Missing name")
 
     s["city_id"] = city_id
-    new_s = places.Place(**s)
+    new_s = place.Place(**s)
     storage.new(new_s)
     storage.save()
     return jsonify(new_s.to_dict()), 201
